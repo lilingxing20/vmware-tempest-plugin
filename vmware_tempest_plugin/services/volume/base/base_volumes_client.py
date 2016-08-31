@@ -7,7 +7,9 @@ Created Time: Mon 29 Aug 2016 04:13:43 PM CST
 File Name   : base_volumes_client.py
 Description : 
 '''
+from oslo_serialization import jsonutils as json
 
+from tempest.lib.common import rest_client
 from tempest.services.volume.base import base_volumes_client
 
 class BaseVolumesVmwareClient(base_volumes_client.BaseVolumesClient):
@@ -17,8 +19,8 @@ class BaseVolumesVmwareClient(base_volumes_client.BaseVolumesClient):
                  **kwargs):
         super(BaseVolumesVmwareClient, self).__init__(
                 auth_provider, service, region, default_volume_size, **kwargs)
-        if default_volume_type:
-            self.default_volume_type = default_volume_type
+        self.default_volume_size = default_volume_size
+        self.default_volume_type = default_volume_type
 
     def create_volume(self, **kwargs):
         """Creates a new Volume.
@@ -28,7 +30,7 @@ class BaseVolumesVmwareClient(base_volumes_client.BaseVolumesClient):
         """
         if 'size' not in kwargs:
             kwargs['size'] = self.default_volume_size
-        if 'volume_type' not in kwargs:
+        if self.default_volume_type and 'volume_type' not in kwargs:
             kwargs['volume_type'] = self.default_volume_type
         post_body = json.dumps({'volume': kwargs})
         resp, body = self.post('volumes', post_body)

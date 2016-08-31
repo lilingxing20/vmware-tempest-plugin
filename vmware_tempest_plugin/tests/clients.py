@@ -8,31 +8,25 @@ File Name   : clients.py
 Description : 
 '''
 
-from oslo_log import log as logging
-from tempest import config
-from tempest import exceptions
 from tempest import clients
+from tempest import config
 from vmware_tempest_plugin.services import volume
- 
+
 CONF = config.CONF
-LOG = logging.getLogger(__name__)
- 
- 
-#class ManagerVmware(clients.Manager):
-# 
-#    def __init__(self, credentials, service=None, scope='project'):
-#        super(ManagerVmware, self).__init__(credentials, service, scope)
-#        self._set_volume_clients()
-#
-#    def _set_volume_clients(self):
-#        self.vmware_volume_client = volume.VolumesVmwareClient(
-#                self.auth_provider,
-#                default_volume_size=CONF.volume.volume_size,
-#                default_volume_type=CONF.volume_vmware.volume_size,
-#                **params)
-        #self.volumes_client = volume.VolumesVmwareClient(
-        #        self.auth_provider,
-        #        default_volume_size=CONF.volume.volume_size,
-        #        default_volume_type=CONF.volume_vmware.volume_type,
-        #        **params)
+
+
+class ManagerVmware(clients.Manager):
+
+    def __init__(self, credentials, service=None):
+        super(ManagerVmware, self).__init__(credentials, service)
+        self._set_volume_vmware_clients()
+
+    def _set_volume_vmware_clients(self):
+        params = self.parameters['volume']
+        self.voluem_vmware_client = volume.VolumesVmwareClient(
+                self.auth_provider,
+                default_volume_size=CONF.volume.volume_size,
+                default_volume_type=CONF.volume_vmware.volume_type,
+                **params)
+
 
