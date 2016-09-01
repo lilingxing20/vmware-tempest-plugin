@@ -17,8 +17,8 @@ CONF = config.CONF
 LOG = logging.getLogger(__name__)
 
 
-class BaseIdentityV2AdminVmwareTest(base.BaseIdentityV2AdminTest):
+class VmwareBaseIdentityV2AdminTest(base.BaseIdentityV2AdminTest):
     @classmethod
     def setup_clients(cls):
-        super(BaseIdentityV2AdminVmwareTest, cls).setup_clients()
+        super(VmwareBaseIdentityV2AdminTest, cls).setup_clients()
 

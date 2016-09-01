@@ -9,12 +9,11 @@ Description :
 '''
 
 from tempest.common.utils import data_utils
-from vmware_tempest_plugin.api.identity import base
+from vmware_tempest_plugin.tests.api.identity import base
 
-class TokensTestVmwareJSON(base.BaseIdentityV2AdminVmwareTest):
+class TokensTestVmwareJSON(base.VmwareBaseIdentityV2AdminTest):
 
     def test_get_tokens(self):
-        from nose.tools import set_trace;set_trace()
         # get a token by username and password
         user_name = data_utils.rand_name(name='user')
         user_password = data_utils.rand_password()
@@ -38,7 +37,7 @@ class TokensTestVmwareJSON(base.BaseIdentityV2AdminVmwareTest):
                 password=user_password,
                 tenant=tenant_name)
         self.assertEqual(body['token']['tenant']['name'],
-                         tenant_name])
+                         tenant_name)
         # Perform GET Token
         token_id = body['token']['id']
         token_details = self.client.show_token(token_id)['access']
@@ -51,3 +50,4 @@ class TokensTestVmwareJSON(base.BaseIdentityV2AdminVmwareTest):
         self.client.delete_token(token_id)
 
 
+#from nose.tools import set_trace;set_trace()
