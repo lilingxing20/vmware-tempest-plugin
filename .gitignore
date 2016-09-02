@@ -20,7 +20,6 @@ build
 cover
 flake8_results.html
 tempest.log
-tempest.conf
 htmlcov/
 venv
 
