@@ -23,10 +23,13 @@ class ManagerVmware(clients.Manager):
 
     def _set_volume_vmware_clients(self):
         params = self.parameters['volume']
-        self.voluem_vmware_client = volume.VolumesVmwareClient(
+        self.volumes_vmware_client = volume.v1.VmwareVolumesClient(
                 self.auth_provider,
                 default_volume_size=CONF.volume.volume_size,
                 default_volume_type=CONF.volume_vmware.volume_type,
                 **params)
-
-
+        self.volumes_v2_vmware_client = volume.v2.VmwareVolumesClient(
+                self.auth_provider,
+                default_volume_size=CONF.volume.volume_size,
+                default_volume_type=CONF.volume_vmware.volume_type,
+                **params)

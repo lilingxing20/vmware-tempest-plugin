@@ -13,7 +13,7 @@ from tempest.common.utils import data_utils as utils
 from tempest.common import waiters
 from tempest import test
 
-class VolumesActionsV2Test(base.BaseVolumeAdminVmwareTest):
+class VolumesActionsV2Test(base.VmwareBaseVolumeAdminTest):
 
     @classmethod
     def setup_clients(cls):
@@ -42,7 +42,7 @@ class VolumesActionsV2Test(base.BaseVolumeAdminVmwareTest):
 
     def _reset_volume_status(self, volume_id, status):
         # Reset the volume status
-        body = self.admin_volume_client.reset_volume_status(volume_id,
+        body = self.admin_volume_vmware_client.reset_volume_status(volume_id,
                                                             status=status)
         return body
 
@@ -66,7 +66,7 @@ class VolumesActionsV2Test(base.BaseVolumeAdminVmwareTest):
         temp_volume = self._create_temp_volume()
         if status:
             self._reset_volume_status(temp_volume['id'], status)
-        self.admin_volume_client.force_delete_volume(temp_volume['id'])
+        self.admin_volume_vmware_client.force_delete_volume(temp_volume['id'])
         self.client.wait_for_resource_deletion(temp_volume['id'])
 
     @test.idempotent_id('d063f96e-a2e0-4f34-8b8a-395c42de1845')

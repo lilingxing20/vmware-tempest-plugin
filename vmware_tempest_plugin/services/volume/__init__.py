@@ -8,8 +8,7 @@ File Name   : __init__.py
 Description : 
 '''
 
-from vmware_tempest_plugin.services.volume.base import base_volumes_client
+from vmware_tempest_plugin.services.volume import v1
+from vmware_tempest_plugin.services.volume import v2
 
-
-class VolumesVmwareClient(base_volumes_client.BaseVolumesVmwareClient):
-        """Client class to send CRUD Volume V1 API requests"""
+__all__ = ['v1', 'v2']

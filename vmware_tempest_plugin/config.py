@@ -28,6 +28,9 @@ VolumeVmwareGroup = [
     cfg.StrOpt('volume_type',
                default='vmware',
                help='Default volume type for volumes created by volumes tests'),
+    cfg.StrOpt('volume_backend_name',
+               default='vmware',
+               help='Default volume_backend_name for volume-types created by volume-types tests'),
 ]
 
 

@@ -12,12 +12,12 @@ from oslo_serialization import jsonutils as json
 from tempest.lib.common import rest_client
 from tempest.services.volume.base import base_volumes_client
 
-class BaseVolumesVmwareClient(base_volumes_client.BaseVolumesClient):
+class VmwareBaseVolumesClient(base_volumes_client.BaseVolumesClient):
     def __init__(self, auth_provider, service, region,
                  default_volume_size=1,
                  default_volume_type=None,
                  **kwargs):
-        super(BaseVolumesVmwareClient, self).__init__(
+        super(VmwareBaseVolumesClient, self).__init__(
                 auth_provider, service, region, default_volume_size, **kwargs)
         self.default_volume_size = default_volume_size
         self.default_volume_type = default_volume_type

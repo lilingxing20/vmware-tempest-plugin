@@ -15,7 +15,7 @@ from tempest.common import waiters
 from tempest import test
 
 
-class VolumesListAdminV2TestJSON(base.BaseVolumeAdminVmwareTest):
+class VolumesListAdminV2TestJSON(base.VmwareBaseVolumeAdminTest):
 
     @classmethod
     def resource_setup(cls):
@@ -33,12 +33,10 @@ class VolumesListAdminV2TestJSON(base.BaseVolumeAdminVmwareTest):
     def test_volume_list_param_tenant(self):
         # Test to list volumes from single tenant
         # Create a volume in admin tenant
-        #from nose.tools import set_trace;set_trace()
-#        adm_vol = self.admin_volume_vmware_client.create_volume()['volume']
-#        waiters.wait_for_volume_status(self.admin_volume_vmware_client,
-#                                       adm_vol['id'], 'available')
-#        ####self.addCleanup(self.admin_volume_vmware_client.delete_volume, adm_vol['id'])
-#        self.admin_volume_vmware_client.delete_volume(adm_vol['id'])
+        adm_vol = self.admin_volume_vmware_client.create_volume()['volume']
+        waiters.wait_for_volume_status(self.admin_volume_vmware_client,
+                                       adm_vol['id'], 'available')
+        self.addCleanup(self.admin_volume_vmware_client.delete_volume, adm_vol['id'])
 
         params = {'all_tenants': 1,
                   'project_id': self.volumes_vmware_client.tenant_id}

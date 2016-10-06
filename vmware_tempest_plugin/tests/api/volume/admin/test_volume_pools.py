@@ -12,7 +12,7 @@ from vmware_tempest_plugin.tests.api.volume import base
 from tempest import test
 
 
-class VolumePoolsAdminV2TestsJSON(base.BaseVolumeAdminVmwareTest):
+class VolumePoolsAdminV2TestsJSON(base.VmwareBaseVolumeAdminTest):
 
     @classmethod
     def resource_setup(cls):
@@ -22,18 +22,18 @@ class VolumePoolsAdminV2TestsJSON(base.BaseVolumeAdminVmwareTest):
 
     @test.idempotent_id('0248a46c-e226-4933-be10-ad6fca8227e7')
     def test_get_pools_without_details(self):
-        volume_info = self.admin_volume_client. \
+        volume_info = self.admin_volume_vmware_client. \
             show_volume(self.volume['id'])['volume']
-        cinder_pools = self.admin_volume_client.show_pools()['pools']
+        cinder_pools = self.admin_volume_vmware_client.show_pools()['pools']
         self.assertIn(volume_info['os-vol-host-attr:host'],
                       [pool['name'] for pool in cinder_pools])
 
     @test.idempotent_id('d4bb61f7-762d-4437-b8a4-5785759a0ced')
     def test_get_pools_with_details(self):
         #from nose.tools import set_trace;set_trace()
-        volume_info = self.admin_volume_client. \
+        volume_info = self.admin_volume_vmware_client. \
             show_volume(self.volume['id'])['volume']
-        cinder_pools = self.admin_volume_client.\
+        cinder_pools = self.admin_volume_vmware_client.\
             show_pools(detail=True)['pools']
         self.assertIn(volume_info['os-vol-host-attr:host'],
                       [pool['name'] for pool in cinder_pools])

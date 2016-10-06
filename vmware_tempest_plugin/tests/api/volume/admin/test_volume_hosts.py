@@ -12,7 +12,7 @@ from vmware_tempest_plugin.tests.api.volume import base
 from tempest import test
 
 
-class VolumeHostsAdminV2TestsJSON(base.BaseVolumeAdminVmwareTest):
+class VolumeHostsAdminV2TestsJSON(base.VmwareBaseVolumeAdminTest):
 
     @test.idempotent_id('d5f3efa2-6684-4190-9ced-1c2f526352ad')
     def test_list_hosts(self):

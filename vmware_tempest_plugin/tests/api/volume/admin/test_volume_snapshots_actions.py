@@ -16,7 +16,7 @@ from tempest import test
 CONF = config.CONF
 
 
-class SnapshotsActionsV2Test(base.BaseVolumeAdminVmwareTest):
+class SnapshotsActionsV2Test(base.VmwareBaseVolumeAdminTest):
 
     @classmethod
     def skip_checks(cls):

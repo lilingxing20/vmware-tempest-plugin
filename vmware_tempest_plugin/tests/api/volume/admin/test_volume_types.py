@@ -17,7 +17,7 @@ from tempest import test
 CONF = config.CONF
 
 
-class VolumeTypesV2Test(base.BaseVolumeAdminVmwareTest):
+class VolumeTypesV2Test(base.VmwareBaseVolumeAdminTest):
 
     @test.idempotent_id('9d9b28e3-1b2e-4483-a2cc-24aa0ea1de54')
     def test_volume_type_list(self):
@@ -34,8 +34,8 @@ class VolumeTypesV2Test(base.BaseVolumeAdminVmwareTest):
         self.name_field = self.special_fields['name_field']
         proto = CONF.volume.storage_protocol
         vendor = CONF.volume.vendor_name
-        extra_specs = {"storage_protocol": proto,
-                       "vendor_name": vendor}
+        volume_backend_name = CONF.volume_vmware.volume_backend_name
+        extra_specs = {"volume_backend_name": volume_backend_name}
         # Create two volume_types
         for i in range(2):
             vol_type_name = data_utils.rand_name(
@@ -48,25 +48,25 @@ class VolumeTypesV2Test(base.BaseVolumeAdminVmwareTest):
                   'volume_type': volume_types[0]['id']}
 
         # Create volume
-        volume = self.volumes_client.create_volume(**params)['volume']
-        self.addCleanup(self.delete_volume, self.volumes_client, volume['id'])
+        volume = self.volumes_vmware_client.create_volume(**params)['volume']
+        self.addCleanup(self.delete_volume, self.volumes_vmware_client, volume['id'])
         self.assertEqual(volume_types[0]['name'], volume["volume_type"])
         self.assertEqual(volume[self.name_field], vol_name,
                          "The created volume name is not equal "
                          "to the requested name")
         self.assertIsNotNone(volume['id'],
                              "Field volume id is empty or not found.")
-        waiters.wait_for_volume_status(self.volumes_client,
+        waiters.wait_for_volume_status(self.volumes_vmware_client,
                                        volume['id'], 'available')
 
         # Update volume with new volume_type
-        self.volumes_client.retype_volume(volume['id'],
+        self.volumes_vmware_client.retype_volume(volume['id'],
                                           new_type=volume_types[1]['id'])
-        waiters.wait_for_volume_status(self.volumes_client,
+        waiters.wait_for_volume_status(self.volumes_vmware_client,
                                        volume['id'], 'available')
 
         # Get volume details and Verify
-        fetched_volume = self.volumes_client.show_volume(
+        fetched_volume = self.volumes_vmware_client.show_volume(
             volume['id'])['volume']
         self.assertEqual(volume_types[1]['name'],
                          fetched_volume['volume_type'],
